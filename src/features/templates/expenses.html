@@ -59,6 +59,13 @@
                 <td contenteditable="true" spellcheck="false">{{ expense.amount }}</td>
                 <td contenteditable="true" spellcheck="false">{{ expense.date}}</td>
                 <td>
+                    <form action="{{ url_for('features.update') }}" method="POST">
+                        <button class="expense_update_button">
+                            Upd
+                        </button>
+                    </form>
+                </td>
+                <td>
                     <form action="{{ url_for('features.delete') }}" method="POST">
                         <input type="hidden" name="expense_id" value="{{ expense.id }}">
                         <button class="expense_delete_button" onclick="handle_expense_delete_button()">

@@ -87,7 +87,14 @@ def delete():
 
     return redirect(url_for('features.expenses'))
 
-@features_bp.route("/expenses/update-expense", methods=["GET", "POST"])
+@features_bp.route("/expenses/update-expense", methods=["POST"])
 def update():
-    pass
+    # TODO Method of editing: in-line
+    '''
+    * Create status on row: Active or [Edit]
+    * User clicks td and turns into input
+        - save when user leaves cell
+
+    '''
+    return "Update"
 
