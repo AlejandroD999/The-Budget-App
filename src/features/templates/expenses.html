@@ -55,16 +55,18 @@
         {% for expense in expenses %}
 
             <tr class="expense_row">
-                <td contenteditable="true" spellcheck="false">{{ expense.description }}</td>
-                <td contenteditable="true" spellcheck="false">{{ expense.amount }}</td>
-                <td contenteditable="true" spellcheck="false">{{ expense.date}}</td>
+                <!-- Maintain order for toggle_edit -->
+                <td spellcheck="false">{{ expense.description }}</td>
+                <td spellcheck="false">{{ expense.amount }}</td>
+                <td spellcheck="false">{{ expense.date}}</td>
+                <!-- Order doesn't matter now -->
+
                 <td>
-                    <form action="{{ url_for('features.update') }}" method="POST">
-                        <button class="expense_update_button">
-                            Upd
-                        </button>
-                    </form>
+                    <button class="toggle_edit_button" onclick="toggle_edit(this)">
+                        Edit
+                    </button>
                 </td>
+
                 <td>
                     <form action="{{ url_for('features.delete') }}" method="POST">
                         <input type="hidden" name="expense_id" value="{{ expense.id }}">
@@ -74,7 +76,31 @@
                     </form>
                 </td>
             </tr>
+        
+        <script>
+            function toggle_edit(button) {
+                const row = button.closest(".expense_row");
+                const cells = row.querySelectorAll("td"); 
+                
+                for (i=0;i<=2;i++) {
+        
+                    if (cells[i].getAttribute("contenteditable") === "true") {
+                        row.style.color = "#a8acaf"
+                        cells[i].setAttribute("contenteditable", "false")
+                    } else {
 
+                        // Temporary color: Later toggle css class on click 
+                        row.style.color = "red"
+                        cells[i].setAttribute("contenteditable", "true")
+
+                    }
+
+                };
+
+
+            }
+
+        </script>
         {% endfor %}
 
     </table>
