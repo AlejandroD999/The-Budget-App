@@ -87,7 +87,7 @@ def delete():
 
     return redirect(url_for('features.expenses'))
 
-@features_bp.route("/expenses/update-expense", methods=["POST"])
-def update():
-    return "Update"
+@features_bp.route("/expenses/edit-expense", methods=["POST"])
+def edit():
+    return redirect(url_for("features.expenses")) 
 
