@@ -54,7 +54,7 @@
         
         {% for expense in expenses %}
 
-            <tr class="expense_row">
+        <tr class="expense_row" data-id="{{ expense.id }}">
                 <!-- Maintain order for toggle_edit -->
                 <td spellcheck="false">{{ expense.description }}</td>
                 <td spellcheck="false">{{ expense.amount }}</td>
@@ -76,31 +76,7 @@
                     </form>
                 </td>
             </tr>
-        
-        <script>
-            function toggle_edit(button) {
-                const row = button.closest(".expense_row");
-                const cells = row.querySelectorAll("td"); 
-                
-                for (i=0;i<=2;i++) {
-        
-                    if (cells[i].getAttribute("contenteditable") === "true") {
-                        row.style.color = "#a8acaf"
-                        cells[i].setAttribute("contenteditable", "false")
-                    } else {
 
-                        // Temporary color: Later toggle css class on click 
-                        row.style.color = "red"
-                        cells[i].setAttribute("contenteditable", "true")
-
-                    }
-
-                };
-
-
-            }
-
-        </script>
         {% endfor %}
 
     </table>
@@ -117,6 +93,50 @@
             expense_div.style.display = 'none'
         }
     };
+
+    function toggle_edit(button) {
+        const row = button.closest(".expense_row");
+        const cells = row.querySelectorAll("td"); 
+        const is_editing = cells[0].getAttribute("contenteditable") === "true";
+
+        if (is_editing) {
+            save_expense(row, cells, button)
+             
+        } else {
+
+            for (i=0;i<3;i++) {
+                cells[i].setAttribute("contenteditable", "true")
+            }
+            button.textContent = "Save";
+        }
+    };
+    
+    async function save_expense(row, cells, button) {
+        const payload = {
+            expense_id: row.dataset.id,
+            description: cells[0].textContent.trim(),
+            amount: cells[1].textContent.trim(),
+            date: cells[2].textContent.trim(),
+        }
+        console.log(payload)
+        
+        try {
+            const res = await fetch("{{ url_for('features.edit') }}", {
+                method: "POST",
+                headers: {'Content-Type': "application/json"},
+                body: JSON.stringify(payload)
+            }); 
+        } catch(error) {
+            console.log(error)
+        }
+        
+        for (i=0;i<3;i++) {
+            cells[i].setAttribute("contenteditable", "false")
+        }
+        button.textContent = "Edit";
+
+    }; 
+
 </script>
 
 {% endblock %}
