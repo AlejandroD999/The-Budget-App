@@ -13,17 +13,17 @@ def insert_expense(user_id, description, amount, date):
         print("Error creating expense")
         db.session.rollback()
 
-def update_expense(expense_id, new_description=None, new_amount=None, new_date=None):
+def update_expense(user_id, expense_id, new_description, new_amount, new_date):
     
-    expense = pull_expense(expense_id)
+    expense = pull_expense(expense_id, user_id)
     
-    if new_description:
+    if new_description != expense.description:
         expense.description = new_description
 
-    if new_amount:
+    if new_amount != expense.amount:
         expense.amount = new_amount
 
-    if new_date:
+    if new_date != expense.date:
         expense.date = new_date
     
     try:
@@ -37,7 +37,7 @@ def get_headers():
     return [column.name.capitalize() for column in Expenses.__table__.columns]
 
 def pull_expense(expense_id, user_id):
-    if not expense_id:
+    if not expense_id or not user_id:
         # TODO Handle Error
         return
     

@@ -118,7 +118,6 @@
             amount: cells[1].textContent.trim(),
             date: cells[2].textContent.trim(),
         }
-        console.log(payload)
         
         try {
             const res = await fetch("{{ url_for('features.edit') }}", {
@@ -133,6 +132,7 @@
         for (i=0;i<3;i++) {
             cells[i].setAttribute("contenteditable", "false")
         }
+
         button.textContent = "Edit";
 
     }; 

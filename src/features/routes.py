@@ -4,6 +4,7 @@ from .expenses_db import *
 import os
 
 # TODO Make expense table date the same format as input
+# TODO Improve user and user_id verification orthogonal 
 
 CURR_DIR_PATH = os.path.dirname(__file__)
 
@@ -89,5 +90,19 @@ def delete():
 
 @features_bp.route("/expenses/edit-expense", methods=["POST"])
 def edit():
+    user_id = session.get("user_id")    
+
+    if not user_id:
+        return redirect(url_for("auth.sign_in"))
+
+    data = request.get_json()
+
+    expense_id = data.get("expense_id")
+    description = data.get("description")
+    amount= data.get("amount")
+    date = data.get("date")
+    
+    update_expense(user_id, expense_id, description, amount, date)
+
     return redirect(url_for("features.expenses")) 
 
