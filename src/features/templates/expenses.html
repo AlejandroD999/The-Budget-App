@@ -9,24 +9,6 @@
 <!-- Holds Charts and analysis of expenses -->
 <div id="expenses_portfolio"></div>
 
-<div class="expense_actions_div">
-
-    <button class="create_expense_button" onclick="toggle_expense_creation()">
-        <img src="{{ url_for('features.static', filename='add_icon.png') }}" alt="create">
-    </button>
-
-    <form class="filter_form" method="POST">
-        <input type="date" name="start_date" required>
-        <input type="date" name="end_date" required>
-
-        <input type="submit" value="Filter">
-    </form>
-    
-    <button id="clear_filter_button" onclick="window.location.href='{{ url_for('features.expenses') }}';">
-        Clear Filter
-    </button>
-</div>
-
 <div class="create_div">
 
     <form class="create_form" action="{{ url_for('features.create') }}" method="POST">
@@ -43,6 +25,23 @@
 
 </div>
 <div id="expenses_container">
+    <div class="expense_actions_div">
+        <button class="create_expense_button" onclick="toggle_expense_creation()">
+            <img src="{{ url_for('features.static', filename='add_icon.png') }}" alt="create">
+        </button>
+
+        <button class="refresh_button" onclick="window.location.href='{{ url_for('features.expenses') }}';">
+            <img src="{{ url_for('features.static', filename='refresh_icon.png') }}" alt="refresh">
+        </button>
+
+        <!-- Idea: toggle filter button -->
+        <form class="filter_form" method="POST">
+            <input type="date" name="start_date" required>
+            <input type="date" name="end_date" required>
+
+            <input type="submit" value="Filter">
+        </form>
+    </div>
 
     <table class="expenses_table">
 
