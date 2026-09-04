@@ -7,7 +7,10 @@
 {% block expenses_content  %}
 
 <!-- Holds Charts and analysis of expenses -->
-<div id="expenses_portfolio"></div>
+<div id="expenses_portfolio">
+    <canvas id="expenses_chart"></canvas>
+</div>
+
 
 <div class="create_div">
 
@@ -82,9 +85,30 @@
 </div>
 
 <script>
+    const cdx= document.getElementById("expenses_chart").getContext("2d");
+
+    new Chart(cdx, {
+        type: "line",
+        data: {
+            labels: ['Red', 'Blue', 'Green'],
+            datasets: [{
+                label: "# of votes",
+                data: [12, 19, 4],
+                borderwidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });   
+
     function toggle_expense_creation() {
         const expense_div = document.querySelector('.create_div');
-        
+
         if (getComputedStyle(expense_div).display === 'none') {
             expense_div.style.display = 'flex'
         }
