@@ -1,5 +1,5 @@
 from flask import render_template, request, session, Blueprint, redirect, url_for
-from .utils import get_year_range, string_to_date 
+from .utils import get_year_range, string_to_date, ExpensesChart 
 from .expenses_db import * 
 import os
 
@@ -36,11 +36,14 @@ def expenses():
         
         expenses = pull_expenses(user_id, start_date=string_to_date(start_date), end_date=string_to_date(end_date))
         
-
+    # TODO Load data into frontend
+    chart = ExpensesChart(expenses, [string_to_date("2026-01-01"), string_to_date("2027-01-01")])
     headers = get_headers() 
     years = get_year_range()
     table_headers = [] 
-
+    
+    chart.status()
+    
     if not headers:
         # TODO Handle error 
         pass
@@ -52,7 +55,9 @@ def expenses():
     return render_template("expenses.html",
                            table_headers=table_headers,
                            expenses=expenses,
-                           years=years)
+                           years=years,
+                           chart_data=chart.get_data()
+                           )
 
 @features_bp.route("/expenses/create-expense", methods=["POST"])
 def create():

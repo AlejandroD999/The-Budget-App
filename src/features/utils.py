@@ -41,14 +41,34 @@ class ExpensesChart:
      
         # Output
         self.labels = [] 
-        self.data = []
-
-
-    def get_labels(self):
+        self.data = [0 for _ in range(0, 12)]
+        
+        self.make_labels()
+        self.filter_data()
+    
+    def make_labels(self):
         # Turn date_range into labels
-        pass
+        for i in range(0, 12):
+            self.labels.append(calendar.month_name[i+1])
 
     def filter_data(self):
         # Get matching expenses based on date and turn into filtered_data 
-        pass 
+        for expense in self.expenses:
+            if self.date_range[0] <= expense.date <= self.date_range[1]:
+                self.filtered_data[expense.date.month] = expense.amount 
+                self.data[expense.date.month - 1] += expense.amount
+        
 
+    # Test purposes only
+    def status(self):
+        print(self.expenses)
+        print("-------")
+        print("Date Range:", self.date_range)
+        print("Filtered Data:", self.filtered_data)
+        print("Labels:\n", self.labels)
+        print("Data:\n", self.data)
+
+        return
+
+    def get_data(self):
+        return {"labels": self.labels, "data": self.data}
