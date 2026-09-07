@@ -4,6 +4,13 @@
     width: 800px;
 }
 
+#expenses_portfolio {
+    align-self: center;
+    width: 50vw;
+    height: 50vh;
+
+}
+
 .expense_actions_div {
     display: flex;
     margin-top: 5px;

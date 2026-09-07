@@ -36,6 +36,7 @@ def expenses():
         
         expenses = pull_expenses(user_id, start_date=string_to_date(start_date), end_date=string_to_date(end_date))
         
+
     headers = get_headers() 
     years = get_year_range()
     table_headers = [] 
